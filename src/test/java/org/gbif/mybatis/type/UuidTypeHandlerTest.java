@@ -1,22 +1,15 @@
 package org.gbif.mybatis.type;
 
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.UUID;
-
 import org.apache.ibatis.type.JdbcType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
+import java.sql.*;
+import java.util.UUID;
+
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.verify;
@@ -50,11 +43,10 @@ public class UuidTypeHandlerTest {
     verify(stmt).setObject(1, null, Types.OTHER);
   }
 
-  // DISCUSS: Is this correct?
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testGetInvalidUuid() throws SQLException {
     when(mockRs.getString("resource_key")).thenReturn("invalid uuid");
-    uth.getResult(mockRs, "resource_key");
+    assertNull(uth.getResult(mockRs, "resource_key"));
   }
 
   @Test
