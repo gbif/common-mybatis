@@ -2,7 +2,7 @@ package org.gbif.mybatis.type;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
-import org.gbif.common.parsers.core.UrlParser;
+import org.gbif.common.parsers.UrlParser;
 
 import java.net.URI;
 import java.sql.CallableStatement;
