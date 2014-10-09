@@ -1,51 +1,56 @@
 package org.gbif.mybatis.guice;
 
+import java.util.Properties;
 import javax.sql.DataSource;
 
-import com.google.inject.Inject;
 import com.google.inject.Key;
-import com.google.inject.name.Named;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.name.Names;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-import org.mybatis.guice.datasource.bonecp.BoneCPProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Basic mybatis module using BoneCP and offers an optional Named guice setting to turn on caching by binding
- * a Boolean "enableCache".
+ * Basic mybatis module using HikariCP that takes all settings via the constructors properties instance.
+ * The following minimal properties are required:
+ * <ul>
+ *   <li>dataSourceClassName, see https://github.com/brettwooldridge/HikariCP#popular-datasource-class-names</li>
+ * </ul>
+ *
+ * In addition to all Hikari configurations this module adds an optional ehCache that can be turned on using
+ *  enableCache=true
+ * See https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby
  */
 public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
 
   private static final Logger LOG = LoggerFactory.getLogger(MyBatisModule.class);
 
-  @Inject(optional = true)
-  @Named("enableCache")
-  private Boolean useCache;
   private final Key<DataSource> datasourceKey;
   private final boolean bindDatasource;
-
-  protected boolean useCache() {
-    return useCache != null && useCache;
-  }
+  private final Properties properties;
 
   /**
    * Creates a new mybatis module binding the Datasource by its class directly.
    * The guice key for that binding is available through {@link #getDatasourceKey}.
    */
-  public MyBatisModule() {
+  public MyBatisModule(Properties properties) {
     datasourceKey = Key.get(DataSource.class);
     bindDatasource = false;
+    this.properties = properties;
   }
 
   /**
    * Creates a new mybatis module binding the Datasource with a name.
    * The guice key for that binding is available through {@link #getDatasourceKey}.
    */
-  public MyBatisModule(String datasourceBindingName) {
+  public MyBatisModule(String datasourceBindingName, Properties properties) {
     datasourceKey = Key.get(DataSource.class, Names.named(datasourceBindingName));
     bindDatasource = true;
+    this.properties = properties;
   }
 
   @Override
@@ -55,8 +60,9 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
     // makes things like logo_url map to logoUrl
     bindConstant().annotatedWith(Names.named("mybatis.configuration.mapUnderscoreToCamelCase")).to(true);
 
-    useCacheEnabled(useCache());
-    if (useCache()) {
+    final boolean useCache = Boolean.parseBoolean(properties.getProperty("enableCache"));
+    useCacheEnabled(useCache);
+    if (useCache) {
       LOG.info("Configuring MyBatis with cache");
       environmentId("production");
     } else {
@@ -69,11 +75,17 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
     bindTypeHandlers();
     bindManagers();
 
-    bindDataSourceProviderType(BoneCPProvider.class);
-
     if (bindDatasource) {
       bind(datasourceKey).to(DataSource.class);
     }
+  }
+
+  @Provides
+  @Singleton
+  public DataSource provideDatasource() {
+    HikariConfig config = new HikariConfig(properties);
+    HikariDataSource ds = new HikariDataSource(config);
+    return ds;
   }
 
   /**
