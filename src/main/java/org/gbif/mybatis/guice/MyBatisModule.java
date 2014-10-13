@@ -18,20 +18,26 @@ import org.slf4j.LoggerFactory;
  * Basic mybatis module using HikariCP that takes all settings via the constructors properties instance.
  * The following minimal properties are required:
  * <ul>
- *   <li>dataSourceClassName, see https://github.com/brettwooldridge/HikariCP#popular-datasource-class-names</li>
+ *   <li>{@code dataSourceClassName}, see https://github.com/brettwooldridge/HikariCP#popular-datasource-class-names</li>
+ *   <li>{@code dataSource.serverName}</li>
+ *   <li>{@code dataSource.databaseName}</li>
+ *   <li>{@code dataSource.user}</li>
+ *   <li>{@code dataSource.password}</li>
  * </ul>
  *
  * In addition to all Hikari configurations this module adds an optional ehCache that can be turned on using
- *  enableCache=true
+ *  {@code enableCache=true}
  * See https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby
  */
 public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
 
   private static final Logger LOG = LoggerFactory.getLogger(MyBatisModule.class);
+  private static final String CACHE_PROPERTY = "enableCache";
 
   private final Key<DataSource> datasourceKey;
   private final boolean bindDatasource;
   private final Properties properties;
+  private final boolean useCache;
 
   /**
    * Creates a new mybatis module binding the Datasource by its class directly.
@@ -41,6 +47,7 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
     datasourceKey = Key.get(DataSource.class);
     bindDatasource = false;
     this.properties = properties;
+    useCache = readCacheSetting();
   }
 
   /**
@@ -51,6 +58,14 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
     datasourceKey = Key.get(DataSource.class, Names.named(datasourceBindingName));
     bindDatasource = true;
     this.properties = properties;
+    useCache = readCacheSetting();
+  }
+
+  private boolean readCacheSetting() {
+    boolean cache = Boolean.parseBoolean(properties.getProperty(CACHE_PROPERTY));
+    // hikari throws exception if unknown properties remain!
+    properties.remove(CACHE_PROPERTY);
+    return cache;
   }
 
   @Override
@@ -60,7 +75,6 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
     // makes things like logo_url map to logoUrl
     bindConstant().annotatedWith(Names.named("mybatis.configuration.mapUnderscoreToCamelCase")).to(true);
 
-    final boolean useCache = Boolean.parseBoolean(properties.getProperty("enableCache"));
     useCacheEnabled(useCache);
     if (useCache) {
       LOG.info("Configuring MyBatis with cache");
