@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
@@ -55,10 +56,12 @@ public class UriArrayTypeHandler extends BaseTypeHandler<List<URI>> {
 
     List<URI> uris = Lists.newArrayList();
     for (String u : (String[]) pgArray.getArray()) {
-      try {
-        uris.add(URI.create(u));
-      } catch (Exception e) {
-        LOG.error("Failed to convert pg array value {} to URI", u);
+      if (!Strings.isNullOrEmpty(u)) {
+        try {
+          uris.add(URI.create(u));
+        } catch (Exception e) {
+          LOG.error("Failed to convert pg array {} to URI for value {}",pgArray, u);
+        }
       }
     }
 
