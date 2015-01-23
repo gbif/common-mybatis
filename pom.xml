@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.gbif</groupId>
     <artifactId>motherpom</artifactId>
-    <version>17</version>
+    <version>19</version>
   </parent>
 
   <groupId>org.gbif</groupId>
@@ -25,7 +25,7 @@
   <properties>
     <!-- requires java6! -->
     <findbugs-jsr305.version>3.0.0</findbugs-jsr305.version>
-    <gbif-api.version>0.17-SNAPSHOT</gbif-api.version>
+    <gbif-api.version>0.17</gbif-api.version>
     <gbif-parsers.version>0.10</gbif-parsers.version>
     <guava.version>17.0</guava.version>
     <guice.version>3.0</guice.version>
