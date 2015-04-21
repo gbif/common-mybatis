@@ -25,7 +25,7 @@
   <properties>
     <!-- requires java6! -->
     <findbugs-jsr305.version>3.0.0</findbugs-jsr305.version>
-    <gbif-api.version>0.19</gbif-api.version>
+    <gbif-api.version>0.20</gbif-api.version>
     <gbif-parsers.version>0.11</gbif-parsers.version>
     <guava.version>17.0</guava.version>
     <guice.version>3.0</guice.version>
