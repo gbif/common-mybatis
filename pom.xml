@@ -25,7 +25,6 @@
   <properties>
     <jdkLevel>1.8</jdkLevel>
 
-    <!-- requires java6! -->
     <findbugs-jsr305.version>3.0.0</findbugs-jsr305.version>
     <gbif-api.version>0.22</gbif-api.version>
     <gbif-parsers.version>0.11</gbif-parsers.version>
