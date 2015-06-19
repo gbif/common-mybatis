@@ -23,11 +23,11 @@
   </scm>
 
   <properties>
-    <jdkLevel>1.8</jdkLevel>
+    <jdkLevel>1.7</jdkLevel>
 
     <findbugs-jsr305.version>3.0.0</findbugs-jsr305.version>
-    <gbif-api.version>0.22</gbif-api.version>
-    <gbif-parsers.version>0.11</gbif-parsers.version>
+    <gbif-api.version>0.23-SNAPSHOT</gbif-api.version>
+    <gbif-parsers.version>0.14-SNAPSHOT</gbif-parsers.version>
     <guava.version>17.0</guava.version>
     <guice.version>3.0</guice.version>
     <h2.version>1.4.185</h2.version>
