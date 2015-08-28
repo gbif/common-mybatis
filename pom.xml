@@ -34,8 +34,8 @@
     <hikaricp.version>2.3.8</hikaricp.version>
     <junit.version>4.12</junit.version>
     <mockito.version>1.10.19</mockito.version>
-    <mybatis.version>3.2.8</mybatis.version>
-    <mybatis-guice.version>3.6</mybatis-guice.version>
+    <mybatis.version>3.3.0</mybatis.version>
+    <mybatis-guice.version>3.7</mybatis-guice.version>
     <mybatis-ehcache.version>1.0.0</mybatis-ehcache.version>
     <slf4j-api.version>1.7.12</slf4j-api.version>
   </properties>
