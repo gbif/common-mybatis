@@ -8,7 +8,7 @@
   </parent>
 
   <artifactId>gbif-common-mybatis</artifactId>
-  <version>0.19-SNAPSHOT</version>
+  <version>0.19</version>
   <packaging>jar</packaging>
 
   <name>GBIF Common :: MyBatis</name>
@@ -18,7 +18,7 @@
     <connection>scm:git:git@github.com:gbif/common-mybatis.git</connection>
     <url>https://github.com/gbif/common-mybatis</url>
     <developerConnection>scm:git:git@github.com:gbif/common-mybatis.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>gbif-common-mybatis-0.19</tag>
   </scm>
 
   <properties>
