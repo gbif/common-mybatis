@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.gbif</groupId>
     <artifactId>motherpom</artifactId>
-    <version>29</version>
+    <version>31</version>
   </parent>
 
   <artifactId>gbif-common-mybatis</artifactId>
