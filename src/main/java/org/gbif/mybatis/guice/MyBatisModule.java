@@ -115,6 +115,13 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
   }
 
   /**
+   * @return the guice key for the bound sql session manager using a named binding if provided in constructor
+   */
+  public Key<SqlSessionManager> getSessionManagerKey() {
+    return sessionManagerKey;
+  }
+
+  /**
    * Implement method to bind the mybatis mappers to be used.
    */
   protected abstract void bindMappers();
