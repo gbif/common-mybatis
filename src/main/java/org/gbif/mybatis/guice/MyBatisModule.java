@@ -10,6 +10,7 @@ import com.google.inject.name.Names;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.session.SqlSessionManager;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,27 +36,30 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
   private static final String CACHE_PROPERTY = "enableCache";
 
   private final Key<DataSource> datasourceKey;
+  private final Key<SqlSessionManager> sessionManagerKey;
   private final boolean bindDatasource;
   private final Properties properties;
   private final boolean useCache;
 
   /**
-   * Creates a new mybatis module binding the Datasource by its class directly.
+   * Creates a new mybatis module binding the Datasource and SqlSessionManager by its class directly.
    * The guice key for that binding is available through {@link #getDatasourceKey}.
    */
   public MyBatisModule(Properties properties) {
     datasourceKey = Key.get(DataSource.class);
+    sessionManagerKey = Key.get(SqlSessionManager.class);
     bindDatasource = false;
     this.properties = properties;
     useCache = readCacheSetting();
   }
 
   /**
-   * Creates a new mybatis module binding the Datasource with a name.
+   * Creates a new mybatis module binding the Datasource and SqlSessionManager with a name.
    * The guice key for that binding is available through {@link #getDatasourceKey}.
    */
   public MyBatisModule(String datasourceBindingName, Properties properties) {
     datasourceKey = Key.get(DataSource.class, Names.named(datasourceBindingName));
+    sessionManagerKey = Key.get(SqlSessionManager.class, Names.named(datasourceBindingName));
     bindDatasource = true;
     this.properties = properties;
     useCache = readCacheSetting();
@@ -91,6 +95,7 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
 
     if (bindDatasource) {
       bind(datasourceKey).to(DataSource.class);
+      bind(sessionManagerKey).to(SqlSessionManager.class);
     }
   }
 
