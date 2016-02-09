@@ -48,7 +48,6 @@ public class MyBatisModuleTest {
     props.setProperty("dataSource.user", "sa");
     props.setProperty("dataSource.password", "sa");
     props.setProperty("dataSource.url", "jdbc:h2:mem:");
-    props.setProperty("enableCache", "true");
 
     MyBatisModule m;
     if (dsKey != null) {

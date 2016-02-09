@@ -1,5 +1,7 @@
 package org.gbif.mybatis.guice;
 
+import org.gbif.utils.file.properties.PropertiesUtil;
+
 import java.util.Properties;
 import javax.sql.DataSource;
 
@@ -26,20 +28,22 @@ import org.slf4j.LoggerFactory;
  *   <li>{@code dataSource.password}</li>
  * </ul>
  *
- * In addition to all Hikari configurations this module adds an optional ehCache that can be turned on using
- *  {@code enableCache=true}
- * See https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby
+ * In addition to all Hikari configurations this module can add optional MyBatis configurations using
+ * the mybatis.configuration. prefix.
+ * {@code mybatis.configuration.callSettersOnNulls}
+ * {@see http://www.mybatis.org/mybatis-3/configuration.html}
  */
 public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
 
   private static final Logger LOG = LoggerFactory.getLogger(MyBatisModule.class);
-  private static final String CACHE_PROPERTY = "enableCache";
+  private static final String DEFAULT_MYBATIS_ENV_ID = "default";
+  private static final String MYBATIS_ENV_ID = "mybatis.environment.id";
+  private static final String MYBATIS_CFG_PREFIX = "mybatis.configuration.";
 
   private final Key<DataSource> datasourceKey;
   private final Key<SqlSessionManager> sessionManagerKey;
   private final boolean bindDatasource;
   private final Properties properties;
-  private final boolean useCache;
 
   /**
    * Creates a new mybatis module binding the Datasource and SqlSessionManager by its class directly.
@@ -50,7 +54,6 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
     sessionManagerKey = Key.get(SqlSessionManager.class);
     bindDatasource = false;
     this.properties = properties;
-    useCache = readCacheSetting();
   }
 
   /**
@@ -62,14 +65,6 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
     sessionManagerKey = Key.get(SqlSessionManager.class, Names.named(datasourceBindingName));
     bindDatasource = true;
     this.properties = properties;
-    useCache = readCacheSetting();
-  }
-
-  private boolean readCacheSetting() {
-    boolean cache = Boolean.parseBoolean(properties.getProperty(CACHE_PROPERTY));
-    // hikari throws exception if unknown properties remain!
-    properties.remove(CACHE_PROPERTY);
-    return cache;
   }
 
   @Override
@@ -77,15 +72,18 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
     LogFactory.useSlf4jLogging();
 
     // makes things like logo_url map to logoUrl
-    bindConstant().annotatedWith(Names.named("mybatis.configuration.mapUnderscoreToCamelCase")).to(true);
+    mapUnderscoreToCamelCase(true);
 
-    useCacheEnabled(useCache);
-    if (useCache) {
-      LOG.info("Configuring MyBatis with cache");
-      environmentId("production");
-    } else {
-      LOG.info("Configuring MyBatis with no cache");
-      environmentId("development");
+    // change MyBatis environment ID or set the default one
+    String myBatisEnvId = properties.getProperty(MYBATIS_ENV_ID, DEFAULT_MYBATIS_ENV_ID);
+    environmentId(myBatisEnvId);
+    LOG.info("Configuring MyBatis environmentId {}", myBatisEnvId);
+
+    // check if some MyBatis configuration are provided
+    Properties myBatisConfig = PropertiesUtil.removeProperties(properties, MYBATIS_CFG_PREFIX);
+    for(String key : myBatisConfig.stringPropertyNames()){
+      bindConstant().annotatedWith(Names.named(key)).to(myBatisConfig.getProperty(key));
+      LOG.info("Setting MyBatis  configuration {} to {}", key, myBatisConfig.getProperty(key));
     }
 
     bindTransactionFactoryType(JdbcTransactionFactory.class);
