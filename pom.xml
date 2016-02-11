@@ -25,9 +25,9 @@
     <jdkLevel>1.7</jdkLevel>
 
     <findbugs-jsr305.version>3.0.1</findbugs-jsr305.version>
-    <gbif-api.version>0.34-SNAPSHOT</gbif-api.version>
+    <gbif-api.version>0.34</gbif-api.version>
     <gbif-parsers.version>0.18</gbif-parsers.version>
-    <gbif-common.version>0.23-SNAPSHOT</gbif-common.version>
+    <gbif-common.version>0.23</gbif-common.version>
     <guava.version>18.0</guava.version>
     <guice.version>4.0</guice.version>
     <h2.version>1.4.191</h2.version>
