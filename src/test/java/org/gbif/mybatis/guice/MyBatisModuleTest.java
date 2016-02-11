@@ -8,8 +8,11 @@ import javax.sql.DataSource;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class MyBatisModuleTest {
@@ -48,6 +51,7 @@ public class MyBatisModuleTest {
     props.setProperty("dataSource.user", "sa");
     props.setProperty("dataSource.password", "sa");
     props.setProperty("dataSource.url", "jdbc:h2:mem:");
+    props.setProperty("mybatis.configuration.callSettersOnNulls", "true");
 
     MyBatisModule m;
     if (dsKey != null) {
@@ -57,6 +61,9 @@ public class MyBatisModuleTest {
     }
     Injector inj = Guice.createInjector(m);
     DataSource ds = inj.getInstance(DataSource.class);
+
+    //test additional myBatis configuration set through properties
+    assertEquals("true", inj.getInstance(Key.get(String.class, Names.named("mybatis.configuration.callSettersOnNulls"))));
 
     return ds;
   }

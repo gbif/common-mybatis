@@ -77,14 +77,11 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
     // change MyBatis environment ID or set the default one
     String myBatisEnvId = properties.getProperty(MYBATIS_ENV_ID, DEFAULT_MYBATIS_ENV_ID);
     environmentId(myBatisEnvId);
-    LOG.info("Configuring MyBatis environmentId {}", myBatisEnvId);
+    LOG.debug("Configuring MyBatis environmentId {}", myBatisEnvId);
 
     // check if some MyBatis configuration are provided
     Properties myBatisConfig = PropertiesUtil.removeProperties(properties, MYBATIS_CFG_PREFIX);
-    for(String key : myBatisConfig.stringPropertyNames()){
-      bindConstant().annotatedWith(Names.named(key)).to(myBatisConfig.getProperty(key));
-      LOG.info("Setting MyBatis  configuration {} to {}", key, myBatisConfig.getProperty(key));
-    }
+    Names.bindProperties(binder(), myBatisConfig);
 
     bindTransactionFactoryType(JdbcTransactionFactory.class);
     bindMappers();
