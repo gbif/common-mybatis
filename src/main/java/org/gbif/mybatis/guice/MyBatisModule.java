@@ -3,12 +3,14 @@ package org.gbif.mybatis.guice;
 import org.gbif.utils.file.properties.PropertiesUtil;
 
 import java.util.Properties;
+import javax.annotation.Nullable;
 import javax.sql.DataSource;
 
 import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
+import com.yammer.metrics.MetricRegistry;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.logging.LogFactory;
@@ -44,16 +46,14 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
   private final Key<SqlSessionManager> sessionManagerKey;
   private final boolean bindDatasource;
   private final Properties properties;
+  private final MetricRegistry metricRegistry;
 
   /**
    * Creates a new mybatis module binding the Datasource and SqlSessionManager by its class directly.
    * The guice key for that binding is available through {@link #getDatasourceKey}.
    */
   public MyBatisModule(Properties properties) {
-    datasourceKey = Key.get(DataSource.class);
-    sessionManagerKey = Key.get(SqlSessionManager.class);
-    bindDatasource = false;
-    this.properties = properties;
+    this(properties, null, null);
   }
 
   /**
@@ -61,10 +61,25 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
    * The guice key for that binding is available through {@link #getDatasourceKey}.
    */
   public MyBatisModule(String datasourceBindingName, Properties properties) {
-    datasourceKey = Key.get(DataSource.class, Names.named(datasourceBindingName));
-    sessionManagerKey = Key.get(SqlSessionManager.class, Names.named(datasourceBindingName));
-    bindDatasource = true;
+    this(properties, datasourceBindingName, null);
+  }
+
+  /**
+   * Creates a new mybatis module binding the Datasource and SqlSessionManager with a name.
+   * The guice key for that binding is available through {@link #getDatasourceKey}.
+   * @param metricRegistry optional metric registry to expose hikari pool metrics
+   */
+  public MyBatisModule(Properties properties, @Nullable String datasourceBindingName, @Nullable MetricRegistry metricRegistry) {
+    bindDatasource = datasourceBindingName != null;
+    if (bindDatasource) {
+      datasourceKey = Key.get(DataSource.class, Names.named(datasourceBindingName));
+      sessionManagerKey = Key.get(SqlSessionManager.class, Names.named(datasourceBindingName));
+    } else {
+      datasourceKey = Key.get(DataSource.class);
+      sessionManagerKey = Key.get(SqlSessionManager.class);
+    }
     this.properties = properties;
+    this.metricRegistry=metricRegistry;
   }
 
   @Override
@@ -98,6 +113,9 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
   @Singleton
   public DataSource provideDatasource() {
     HikariConfig config = new HikariConfig(properties);
+    if (metricRegistry != null) {
+      config.setMetricRegistry(metricRegistry);
+    }
     HikariDataSource ds = new HikariDataSource(config);
     return ds;
   }
