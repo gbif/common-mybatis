@@ -6,11 +6,11 @@ import java.util.Properties;
 import javax.annotation.Nullable;
 import javax.sql.DataSource;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
-import com.yammer.metrics.MetricRegistry;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.logging.LogFactory;

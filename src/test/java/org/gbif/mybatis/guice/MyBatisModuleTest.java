@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.Properties;
 import javax.sql.DataSource;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -24,7 +25,7 @@ public class MyBatisModuleTest {
     }
 
     public MyBatisModuleImpl(Properties properties, String dsKey) {
-      super(dsKey, properties);
+      super(properties, dsKey, new MetricRegistry());
     }
 
     @Override
