@@ -47,13 +47,16 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
   private final boolean bindDatasource;
   private final Properties properties;
   private final MetricRegistry metricRegistry;
+  //Used for dropwizard health checks
+  private final Object healthCheckRegistry;
+
 
   /**
    * Creates a new mybatis module binding the Datasource and SqlSessionManager by its class directly.
    * The guice key for that binding is available through {@link #getDatasourceKey}.
    */
   public MyBatisModule(Properties properties) {
-    this(properties, null, null);
+    this(properties, null, null, null);
   }
 
   /**
@@ -61,7 +64,7 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
    * The guice key for that binding is available through {@link #getDatasourceKey}.
    */
   public MyBatisModule(String datasourceBindingName, Properties properties) {
-    this(properties, datasourceBindingName, null);
+    this(properties, datasourceBindingName, null, null);
   }
 
   /**
@@ -69,7 +72,9 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
    * The guice key for that binding is available through {@link #getDatasourceKey}.
    * @param metricRegistry optional metric registry to expose hikari pool metrics
    */
-  public MyBatisModule(Properties properties, @Nullable String datasourceBindingName, @Nullable MetricRegistry metricRegistry) {
+  public MyBatisModule(Properties properties, @Nullable String datasourceBindingName,
+                       @Nullable MetricRegistry metricRegistry,
+                       @Nullable Object healthCheckRegistry) {
     bindDatasource = datasourceBindingName != null;
     if (bindDatasource) {
       datasourceKey = Key.get(DataSource.class, Names.named(datasourceBindingName));
@@ -79,7 +84,8 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
       sessionManagerKey = Key.get(SqlSessionManager.class);
     }
     this.properties = properties;
-    this.metricRegistry=metricRegistry;
+    this.metricRegistry = metricRegistry;
+    this.healthCheckRegistry = healthCheckRegistry;
   }
 
   @Override
@@ -115,6 +121,9 @@ public abstract class MyBatisModule extends org.mybatis.guice.MyBatisModule {
     HikariConfig config = new HikariConfig(properties);
     if (metricRegistry != null) {
       config.setMetricRegistry(metricRegistry);
+    }
+    if (healthCheckRegistry != null) {
+      config.setHealthCheckRegistry(healthCheckRegistry);
     }
     HikariDataSource ds = new HikariDataSource(config);
     return ds;
