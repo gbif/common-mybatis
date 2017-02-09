@@ -25,7 +25,7 @@ public class MyBatisModuleTest {
     }
 
     public MyBatisModuleImpl(Properties properties, String dsKey) {
-      super(properties, dsKey, new MetricRegistry());
+      super(properties, dsKey, new MetricRegistry(), null);
     }
 
     @Override
