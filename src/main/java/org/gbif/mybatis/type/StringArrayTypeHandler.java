@@ -50,6 +50,16 @@ public class StringArrayTypeHandler extends BaseTypeHandler<List<String>> {
     if (pgArray == null) return Lists.newArrayList();
 
     String[] strings = (String[]) pgArray.getArray();
-    return Lists.newArrayList(strings);
+    return containsOnlyNulls(strings) ? Lists.<String>newArrayList() : Lists.newArrayList(strings);
   }
+
+  private boolean containsOnlyNulls(String[] strings) {
+    for(String s : strings) {
+      if (s != null) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 }
