@@ -2,6 +2,7 @@ package org.gbif.mybatis.type;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.MappedTypes;
 import org.gbif.common.parsers.UrlParser;
 
 import java.net.URI;
@@ -13,30 +14,31 @@ import java.sql.SQLException;
 /**
  * A simple converter for varchars to URI.
  */
+@MappedTypes({URI.class})
 public class UriTypeHandler extends BaseTypeHandler<URI> {
 
-    @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, URI parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, parameter.toString());
-    }
+  @Override
+  public void setNonNullParameter(PreparedStatement ps, int i, URI parameter, JdbcType jdbcType) throws SQLException {
+    ps.setString(i, parameter.toString());
+  }
 
-    @Override
-    public URI getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        return toURI(rs.getString(columnName));
-    }
+  @Override
+  public URI getNullableResult(ResultSet rs, String columnName) throws SQLException {
+    return toURI(rs.getString(columnName));
+  }
 
-    @Override
-    public URI getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-        return toURI(rs.getString(columnIndex));
-    }
+  @Override
+  public URI getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+    return toURI(rs.getString(columnIndex));
+  }
 
-    @Override
-    public URI getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-        return toURI(cs.getString(columnIndex));
-    }
+  @Override
+  public URI getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+    return toURI(cs.getString(columnIndex));
+  }
 
-    private static URI toURI(String val) throws SQLException {
-        return UrlParser.parse(val);
-    }
+  private static URI toURI(String val) throws SQLException {
+    return UrlParser.parse(val);
+  }
 
 }
