@@ -1,9 +1,9 @@
 package org.gbif.mybatis.type;
 
-import java.util.Map;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+
+import java.util.Map;
 
 /**
  * Generic converter class using an immutable bimap for mapping key/values.
@@ -18,7 +18,6 @@ public abstract class BaseConverter<K, T extends Enum<?>> implements EnumConvert
   /**
    * @param map       the map of unique persistency integers to unique enum values.
    * @param nullValue the value to be used when a key cannot be found.
-   *
    * @throws IllegalArgumentException if two keys have the same value
    * @throws NullPointerException     if any key or value is null
    */

@@ -1,6 +1,5 @@
 package org.gbif.mybatis.type;
 
-
 import org.gbif.api.vocabulary.Country;
 
 /**
@@ -18,7 +17,6 @@ public class CountryConverter implements EnumConverter<String, Country> {
    * Country.UNKNOWN.
    *
    * @param key a 2 or 3 letter ISO 3166 Country code
-   *
    * @return matching Country Enum, or null if incoming key was null
    */
   @Override
@@ -30,5 +28,4 @@ public class CountryConverter implements EnumConverter<String, Country> {
       return c == null ? Country.UNKNOWN : c;
     }
   }
-
 }

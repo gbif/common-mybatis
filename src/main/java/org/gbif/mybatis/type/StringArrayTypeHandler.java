@@ -12,16 +12,16 @@
  */
 package org.gbif.mybatis.type;
 
+import com.google.common.collect.Lists;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+
 import java.sql.Array;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
-import com.google.common.collect.Lists;
-import org.apache.ibatis.type.BaseTypeHandler;
-import org.apache.ibatis.type.JdbcType;
 
 public class StringArrayTypeHandler extends BaseTypeHandler<List<String>> {
 
@@ -54,7 +54,7 @@ public class StringArrayTypeHandler extends BaseTypeHandler<List<String>> {
   }
 
   private boolean containsOnlyNulls(String[] strings) {
-    for(String s : strings) {
+    for (String s : strings) {
       if (s != null) {
         return false;
       }

@@ -1,11 +1,11 @@
 package org.gbif.mybatis.type;
 
-
 import org.gbif.api.vocabulary.Country;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -17,9 +17,9 @@ public class CountryConverterTest {
   public void testCompleteness() {
     for (Country t : Country.values()) {
       if (t == Country.UNKNOWN) {
-        assertTrue(conv.fromEnum(t) == null);
+        assertNull(conv.fromEnum(t));
       } else {
-        assertTrue(conv.fromEnum(t) != null);
+        assertNotNull(conv.fromEnum(t));
       }
     }
   }
@@ -36,7 +36,7 @@ public class CountryConverterTest {
     assertEquals(Country.COSTA_RICA, conv.toEnum("cri"));
     assertEquals(Country.UNKNOWN, conv.toEnum(""));
     assertEquals(Country.UNKNOWN, conv.toEnum(" "));
-    assertEquals(null, conv.toEnum(null));
+    assertNull(conv.toEnum(null));
     assertEquals(Country.UNKNOWN, conv.toEnum("zz"));
   }
 

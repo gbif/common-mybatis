@@ -15,24 +15,24 @@
  */
 package org.gbif.mybatis.type;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
 import org.gbif.api.util.VocabularyUtils;
 
+import javax.annotation.Nullable;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Map;
-import javax.annotation.Nullable;
-
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Strings;
-import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.TypeHandler;
 
 /**
  * General enumeration type handler that converts enums into their string name() representation
  * and vice versa. Converting into the enum is case insensitive.
+ *
  * @param <T> the exact enumeration to convert
  */
 public class EnumDictTypeHandler<T extends Enum<?>> implements TypeHandler<T> {
@@ -41,9 +41,9 @@ public class EnumDictTypeHandler<T extends Enum<?>> implements TypeHandler<T> {
   private final T defaultValue;
 
   /**
-   * @param clazz the enumeration class
+   * @param clazz        the enumeration class
    * @param defaultValue the default value to be used if it cannot be converted, can be null
-   * @param lookupDict optional map with additional mappings
+   * @param lookupDict   optional map with additional mappings
    */
   protected EnumDictTypeHandler(Class<T> clazz, @Nullable T defaultValue, @Nullable Map<String, T> lookupDict) {
     dict = lookupDict;

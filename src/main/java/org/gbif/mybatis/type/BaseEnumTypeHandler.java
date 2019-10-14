@@ -1,12 +1,12 @@
 package org.gbif.mybatis.type;
 
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
+
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.TypeHandler;
 
 /**
  * Base handler for all Enums from the term_type table that are backed by the preferred terms of the term table.

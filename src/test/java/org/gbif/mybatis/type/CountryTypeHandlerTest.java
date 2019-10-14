@@ -2,14 +2,13 @@ package org.gbif.mybatis.type;
 
 import org.gbif.api.exception.ServiceUnavailableException;
 import org.gbif.api.vocabulary.Country;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

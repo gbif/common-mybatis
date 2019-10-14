@@ -12,6 +12,13 @@
  */
 package org.gbif.mybatis.type;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.URI;
 import java.sql.Array;
 import java.sql.CallableStatement;
@@ -19,13 +26,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import org.apache.ibatis.type.BaseTypeHandler;
-import org.apache.ibatis.type.JdbcType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class UriArrayTypeHandler extends BaseTypeHandler<List<URI>> {
   private static final Logger LOG = LoggerFactory.getLogger(UriArrayTypeHandler.class);
@@ -60,7 +60,7 @@ public class UriArrayTypeHandler extends BaseTypeHandler<List<URI>> {
         try {
           uris.add(URI.create(u));
         } catch (Exception e) {
-          LOG.error("Failed to convert pg array {} to URI for value {}",pgArray, u);
+          LOG.error("Failed to convert pg array {} to URI for value {}", pgArray, u);
         }
       }
     }
