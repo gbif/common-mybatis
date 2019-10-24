@@ -47,7 +47,7 @@
     <!-- Sonar -->
     <sonar.language>java</sonar.language>
     <sonar.jacoco.reportPaths>${jacoco.output.file}</sonar.jacoco.reportPaths>
-    <sonar.projectName>GBIF Common Web service</sonar.projectName>
+    <sonar.projectName>GBIF Common MyBatis</sonar.projectName>
 
     <!-- JaCoCo -->
     <coverage.dir>${project.build.directory}/coverage</coverage.dir>
