@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,22 @@
  */
 package org.gbif.mybatis.type;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Strings;
-import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.TypeHandler;
 import org.gbif.api.util.VocabularyUtils;
 
-import javax.annotation.Nullable;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Map;
+
+import javax.annotation.Nullable;
+
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 
 /**
  * General enumeration type handler that converts enums into their string name() representation
