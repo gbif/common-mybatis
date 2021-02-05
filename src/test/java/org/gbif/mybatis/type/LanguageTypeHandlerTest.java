@@ -1,20 +1,17 @@
 package org.gbif.mybatis.type;
 
-import org.gbif.api.exception.ServiceUnavailableException;
 import org.gbif.api.vocabulary.Language;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class LanguageTypeHandlerTest {
 
   @Mock
@@ -22,11 +19,8 @@ public class LanguageTypeHandlerTest {
   private final LanguageTypeHandler th = new LanguageTypeHandler();
 
   @Test
-  public void testGetResult() throws ServiceUnavailableException {
-    try {
-      when(mockedRs.getObject("language_i")).thenReturn("en");
-      assertThat(th.getResult(mockedRs, "language_i"), is(Language.ENGLISH));
-    } catch (SQLException e) {
-    }
+  public void testGetResult() throws Exception {
+    when(mockedRs.getObject("language_i")).thenReturn("en");
+    assertEquals(Language.ENGLISH, th.getResult(mockedRs, "language_i"));
   }
 }

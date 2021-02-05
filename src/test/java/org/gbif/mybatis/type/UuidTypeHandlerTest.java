@@ -1,10 +1,10 @@
 package org.gbif.mybatis.type;
 
 import org.apache.ibatis.type.JdbcType;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
@@ -14,18 +14,17 @@ import java.sql.Types;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UuidTypeHandlerTest {
 
-  private UuidTypeHandler uth = new UuidTypeHandler();
+  private final UuidTypeHandler uth = new UuidTypeHandler();
 
   @Mock
   private ResultSet mockRs;
@@ -36,7 +35,7 @@ public class UuidTypeHandlerTest {
   @Mock
   private PreparedStatement stmt;
 
-  private UUID testUuid = UUID.fromString("b324e8e9-9a4c-44fa-8f1a-7f39ea7ab576");
+  private final UUID testUuid = UUID.fromString("b324e8e9-9a4c-44fa-8f1a-7f39ea7ab576");
 
   @Test
   public void testSetValidParameter() throws SQLException {
@@ -65,9 +64,9 @@ public class UuidTypeHandlerTest {
   @Test
   public void testGetValidUuid() throws SQLException {
     when(mockRs.getString("resource_key")).thenReturn(testUuid.toString());
-    Object result = uth.getResult(mockRs, "resource_key");
-    assertThat(result, instanceOf(UUID.class));
-    assertThat((UUID) result, equalTo(testUuid));
+    UUID result = uth.getResult(mockRs, "resource_key");
+
+    assertThat(result, equalTo(testUuid));
   }
 
   /**

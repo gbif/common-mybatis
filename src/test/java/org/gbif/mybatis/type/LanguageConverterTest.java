@@ -2,11 +2,11 @@ package org.gbif.mybatis.type;
 
 import org.gbif.api.vocabulary.Language;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Test class for {@link LanguageConverter}.
@@ -19,9 +19,9 @@ public class LanguageConverterTest {
   public void testCompleteness() {
     for (Language t : Language.values()) {
       if (t == Language.UNKNOWN) {
-        assertTrue(conv.fromEnum(t) == null);
+        assertNull(conv.fromEnum(t));
       } else {
-        assertTrue(conv.fromEnum(t) != null);
+        assertNotNull(conv.fromEnum(t));
       }
     }
   }

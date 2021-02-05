@@ -1,20 +1,17 @@
 package org.gbif.mybatis.type;
 
-import org.gbif.api.exception.ServiceUnavailableException;
 import org.gbif.api.vocabulary.Country;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CountryTypeHandlerTest {
 
   @Mock
@@ -22,11 +19,8 @@ public class CountryTypeHandlerTest {
   private final CountryTypeHandler th = new CountryTypeHandler();
 
   @Test
-  public void testGetResult() throws ServiceUnavailableException {
-    try {
-      when(mockedRs.getObject("country_i")).thenReturn("dk");
-      assertThat(th.getResult(mockedRs, "country_i"), is(Country.DENMARK));
-    } catch (SQLException e) {
-    }
+  public void testGetResult() throws Exception {
+    when(mockedRs.getObject("country_i")).thenReturn("dk");
+    assertEquals(Country.DENMARK, th.getResult(mockedRs, "country_i"));
   }
 }
