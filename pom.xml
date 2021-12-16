@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.gbif</groupId>
     <artifactId>motherpom</artifactId>
-    <version>50</version>
+    <version>56</version>
   </parent>
 
   <artifactId>gbif-common-mybatis</artifactId>
@@ -23,21 +23,20 @@
 
   <properties>
     <jdkLevel>1.8</jdkLevel>
-
-    <findbugs-jsr305.version>3.0.1</findbugs-jsr305.version>
-    <gbif-api.version>0.139</gbif-api.version>
-    <gbif-parsers.version>0.27</gbif-parsers.version>
-    <gbif-common.version>0.50</gbif-common.version>
+    <gbif-api.version>0.160-SNAPSHOT</gbif-api.version>
+    <gbif-parsers.version>0.57-SNAPSHOT</gbif-parsers.version>
+    <gbif-common.version>0.52</gbif-common.version>
+    <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
     <guava.version>18.0</guava.version>
     <hikaricp.version>3.4.5</hikaricp.version>
-    <metrics.version>3.1.2</metrics.version>
-    <mybatis.version>3.5.0</mybatis.version>
+    <metrics.version>4.2.5</metrics.version>
+    <mybatis.version>3.5.2</mybatis.version>
     <mybatis-ehcache.version>1.0.0</mybatis-ehcache.version>
     <slf4j-api.version>1.7.30</slf4j-api.version>
 
     <!-- Test -->
-    <junit.version>5.6.3</junit.version>
-    <mockito.version>3.3.3</mockito.version>
+    <junit.version>5.8.2</junit.version>
+    <mockito.version>4.1.0</mockito.version>
     <hamcrest.version>2.2</hamcrest.version>
     <h2.version>1.4.192</h2.version>
 
