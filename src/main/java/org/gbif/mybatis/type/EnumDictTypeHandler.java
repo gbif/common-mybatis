@@ -32,7 +32,7 @@ import com.google.common.base.Strings;
 
 /**
  * General enumeration type handler that converts enums into their string name() representation
- * and vice versa. Converting into the enum is case insensitive.
+ * and vice versa. Converting into the enum is case-insensitive.
  *
  * @param <T> the exact enumeration to convert
  */
@@ -76,14 +76,10 @@ public class EnumDictTypeHandler<T extends Enum<?>> implements TypeHandler<T> {
   @VisibleForTesting
   protected T lookup(String val) {
     try {
-      return (T) VocabularyUtils.lookupEnum(val, clazz);
-
+      return VocabularyUtils.lookupEnum(val, clazz);
     } catch (IllegalArgumentException e) {
       if (dict != null && !Strings.isNullOrEmpty(val)) {
-        final String normed = val.toLowerCase();
-        if (dict.containsKey(normed)) {
-          return dict.get(normed);
-        }
+        return dict.getOrDefault(val.toLowerCase(), defaultValue);
       }
     }
     return defaultValue;

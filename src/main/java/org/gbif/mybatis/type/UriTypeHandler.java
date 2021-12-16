@@ -51,7 +51,7 @@ public class UriTypeHandler extends BaseTypeHandler<URI> {
     return toURI(cs.getString(columnIndex));
   }
 
-  private static URI toURI(String val) throws SQLException {
+  private static URI toURI(String val) {
     return UrlParser.parse(val);
   }
 

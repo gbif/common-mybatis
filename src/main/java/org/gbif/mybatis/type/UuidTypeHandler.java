@@ -62,14 +62,13 @@ public class UuidTypeHandler implements TypeHandler<UUID> {
     return toUUID(cs.getString(columnIndex));
   }
 
-  private static UUID toUUID(String val) throws SQLException {
-    if (Strings.isNullOrEmpty(val)) {
-      return null;
-    }
-    try {
-      return UUID.fromString(val);
-    } catch (IllegalArgumentException e) {
-      LOG.warn("Bad UUID found: {}", val);
+  private static UUID toUUID(String val) {
+    if (!Strings.isNullOrEmpty(val)) {
+      try {
+        return UUID.fromString(val);
+      } catch (IllegalArgumentException e) {
+        LOG.warn("Bad UUID found: {}", val);
+      }
     }
     return null;
   }
