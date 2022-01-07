@@ -30,7 +30,7 @@
     <guava.version>18.0</guava.version>
     <hikaricp.version>3.4.5</hikaricp.version>
     <metrics.version>4.2.5</metrics.version>
-    <mybatis.version>3.5.2</mybatis.version>
+    <mybatis.version>3.5.6</mybatis.version>
     <mybatis-ehcache.version>1.0.0</mybatis-ehcache.version>
     <slf4j-api.version>1.7.30</slf4j-api.version>
 
