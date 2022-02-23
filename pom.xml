@@ -23,8 +23,8 @@
 
   <properties>
     <jdkLevel>1.8</jdkLevel>
-    <gbif-api.version>0.160-SNAPSHOT</gbif-api.version>
-    <gbif-parsers.version>0.57-SNAPSHOT</gbif-parsers.version>
+    <gbif-api.version>0.165</gbif-api.version>
+    <gbif-parsers.version>0.58</gbif-parsers.version>
     <gbif-common.version>0.52</gbif-common.version>
     <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
     <guava.version>18.0</guava.version>
