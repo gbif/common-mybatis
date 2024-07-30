@@ -49,7 +49,7 @@ public class StringArrayTypeHandler extends BaseTypeHandler<List<String>> {
   }
 
   private List<String> toList(Array pgArray) throws SQLException {
-    if (pgArray == null) return Lists.newArrayList();
+    if (pgArray == null || pgArray.getArray() == null) return Lists.newArrayList();
 
     String[] strings = (String[]) pgArray.getArray();
     return containsOnlyNulls(strings) ? Lists.<String>newArrayList() : Lists.newArrayList(strings);
