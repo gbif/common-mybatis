@@ -54,7 +54,7 @@ public class UriArrayTypeHandler extends BaseTypeHandler<List<URI>> {
   }
 
   private List<URI> toList(Array pgArray) throws SQLException {
-    if (pgArray == null) return Lists.newArrayList();
+    if (pgArray == null || pgArray.getArray() == null) return Lists.newArrayList();
 
     List<URI> uris = Lists.newArrayList();
     for (String u : (String[]) pgArray.getArray()) {
