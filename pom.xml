@@ -8,7 +8,7 @@
   </parent>
 
   <artifactId>gbif-common-mybatis</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5-multitaxonomy-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>GBIF Common :: MyBatis</name>
