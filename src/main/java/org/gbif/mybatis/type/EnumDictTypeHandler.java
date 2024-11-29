@@ -36,7 +36,7 @@ import com.google.common.base.Strings;
  *
  * @param <T> the exact enumeration to convert
  */
-public class EnumDictTypeHandler<T extends Enum<?>> implements TypeHandler<T> {
+public abstract class EnumDictTypeHandler<T extends Enum<?>> implements TypeHandler<T> {
   private final Map<String, T> dict;
   private final Class<T> clazz;
   private final T defaultValue;

@@ -26,7 +26,7 @@ import org.apache.ibatis.type.TypeHandler;
  *
  * @param <T> the enumeration to be handled
  */
-public class BaseEnumTypeHandler<K, T extends Enum<?>> implements TypeHandler<T> {
+public abstract class BaseEnumTypeHandler<K, T extends Enum<?>> implements TypeHandler<T> {
 
   private final EnumConverter<K, T> typeConverter;
 
