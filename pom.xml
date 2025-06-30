@@ -21,6 +21,17 @@
     <tag>HEAD</tag>
   </scm>
 
+  <distributionManagement>
+    <repository>
+      <id>gbif-release</id>
+      <url>https://repository.gbif.org/content/repositories/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>gbif-deploy</id>
+      <url>https://repository.gbif.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <properties>
     <jdkLevel>11</jdkLevel>
     <gbif-api.version>2.0.0</gbif-api.version>
